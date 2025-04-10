@@ -1,0 +1,45 @@
+### Introduction
+----------------
+This is just a lazy document to notate the process of modifying
+Chisel for C# reflection support.  Ideally, I'll eventually write
+some scripts for automation... but realistically this is note is
+also for when I inevitably forget what the hell I did when I 
+come back to this months/years from now.
+
+
+### ChiselNG Project Build Process
+----------------------------------
+(1) Clone the latest version of the `chisel` project.
+(2) Within `main.go`...
+--> add "C" import.
+--> add `mainDelegate(charags *C.char)` function above `main()`.
+(3) Compile `main.go` as a `main.dll` Windows DLL
+(4) Add `main.dll` to the `ChiselNG/Costura<arch>` directory.
+(5) Compile ChiselNG project.
+
+
+### Compiling Chisel DLL
+------------------------
+(Note: replace `amd64` with `386` if compiling for 32-bit)
+
+# Windows (cmd -- gross)
+set GOOS=windows
+set GOARCH=amd64
+set CGO_ENABLED=1
+go build --buildmode=c-shared -ldflags="-s -w" -o main.dll main.go
+
+# Windows (PowerShell)
+$env:GOOS = 'windows'
+$env:GOARCH = 'amd64'
+$env:CGO_ENABLED = '1'
+go build --buildmode=c-shared -ldflags="-s -w" -o main.dll main.go
+
+# Linux (requires: mingw-w64)
+go env -w CC=x86_64-w64-mingw32-gcc
+go env -w GOOS=windows
+go env -w GOARCH=amd64
+go env -w CGO_ENABLED=1
+go build --buildmode=c-shared -ldflags="-s -w" -o main.dll main.go
+go env -u CC   # Reset default GCC
+go env -u GOOS # Reset target OS back to Linux
+
