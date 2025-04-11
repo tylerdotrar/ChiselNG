@@ -10,17 +10,25 @@ come back to this months/years from now.
 ### ChiselNG Project Build Process
 ----------------------------------
 (1) Clone the latest version of the `chisel` project.
+
 (2) Within `main.go`...
 --> add "C" import.
 --> add `mainDelegate(charags *C.char)` function above `main()`.
-(3) Compile `main.go` as a `main.dll` Windows DLL
-(4) Add `main.dll` to the `ChiselNG/Costura<arch>` directory.
+--> Note: `mainDelegate.txt` contains the function for reference.
+
+(3) Compile `main.go` as a `main.dll` Windows DLL.
+--> If using the `compile_chisel.sh` script, DLL's will end in 64/32.
+
+(4) Add `main.dll` to the `chiselng/costura-win-<arch>` directory.
+--> Don't forget to rename the DLL's from `main64.dll/main32.dll`.
+
 (5) Compile ChiselNG project.
 
 
 ### Compiling Chisel DLL
 ------------------------
-(Note: replace `amd64` with `386` if compiling for 32-bit)
+(Note 1: change GOARCH from `amd64` to `386` if compiling for 32-bit)
+(Note 2: change CC to x86 versions of binaries if compiling for 32-bit)
 
 # Windows (cmd -- gross)
 set GOOS=windows
