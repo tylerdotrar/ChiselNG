@@ -1,0 +1,44 @@
+// Begin main() export for ChiselNG
+//export mainDelegate
+func mainDelegate(charargs *C.char) {
+    var stringargs string
+        stringargs = C.GoString(charargs)
+        arrayargs := strings.Fields(stringargs)
+    // fmt.Println(arrayargs)
+
+        f1 := flag.NewFlagSet("f1", flag.ContinueOnError)
+
+        version := f1.Bool("version", false, "")
+        v := f1.Bool("v", false, "")
+        f1.Bool("help", false, "")
+        f1.Bool("h", false, "")
+        f1.Usage = func() {}
+        f1.Parse(arrayargs)
+
+        if *version || *v {
+                fmt.Println(chshare.BuildVersion)
+                //os.Exit(1)
+                return
+        }
+
+        args := f1.Args()
+
+
+        subcmd := ""
+        if len(args) > 0 {
+                subcmd = args[0]
+                args = args[1:]
+        }
+
+        switch subcmd {
+        case "server":
+                server(args)
+        case "client":
+                client(args)
+        default:
+                fmt.Fprintf(os.Stderr, help)
+                //os.Exit(1)
+                return
+        }
+}
+// End main() export for ChiselNG

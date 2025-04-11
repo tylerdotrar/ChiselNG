@@ -1,0 +1,6 @@
+.vs/
+chiselng/bin/
+chiselng/obj/
+go/helpers/bin
+go/chisel/.git
+go/chisel/.github
