@@ -1,11 +1,10 @@
 #!/bin/bash
 # Lazy script to compile both Windows & Linux binaries for chiselng
 # 
-# Requirements:
+# Package Requirements:
 # --> golang-go
-# --> make
 # --> mingw-w64
-# --> musl-gcc
+# --> musl-tools
 
 
 ## Create output directory
