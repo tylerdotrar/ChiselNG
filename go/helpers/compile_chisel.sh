@@ -26,21 +26,21 @@ go env -w CGO_ENABLED=1
 go env -w GOOS=windows
 
 # 64-bit DLL
-go build --buildmode=c-shared -ldflags="-s -w" -o ../helpers/bin/main64.dll .
+go build -mod=vendor --buildmode=c-shared -ldflags="-s -w" -o ../helpers/bin/main64.dll .
 echo " o  'main64.dll' compiled -- data type:"
 file ../helpers/bin/main64.dll
 
 # 32-bit DLL
 go env -w CC=i686-w64-mingw32-gcc
 go env -w GOARCH=386
-go build --buildmode=c-shared -ldflags="-s -w" -o ../helpers/bin/main32.dll .
+go build -mod=vendor --buildmode=c-shared -ldflags="-s -w" -o ../helpers/bin/main32.dll .
 echo " o  'main32.dll' compiled -- data type:"
 file ../helpers/bin/main32.dll
 
 # 64-bit Executable (for testing)
 go env -w CC=x86_64-w64-mingw32-gcc
 go env -w GOARCH=amd64
-go build -ldflags="-s -w" -o ../helpers/bin/chiselng_x64.exe .
+go build -mod=vendor -ldflags="-s -w" -o ../helpers/bin/chiselng_x64.exe .
 echo " o  'chiselng_x64.exe' compiled -- data type:"
 file ../helpers/bin/chiselng_x64.exe
 echo " o  Done."
@@ -53,7 +53,7 @@ go env -w CC=musl-gcc # Use musl-gcc for easier static linking
 go env -u GOOS        # Reset target OS back to Linux
 
 # 64-bit Executable (Statically Linked)
-go build -ldflags="-s -w -linkmode external -extldflags -static" -o ../helpers/bin/chiselng_amd64 .
+go build -mod=vendor -ldflags="-s -w -linkmode external -extldflags -static" -o ../helpers/bin/chiselng_amd64 .
 echo " o  'chiselng_amd64' compiled -- data type:"
 file ../helpers/bin/chiselng_amd64
 
